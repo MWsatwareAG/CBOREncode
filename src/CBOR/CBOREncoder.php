@@ -186,7 +186,8 @@ class CBOREncoder
                 return self::biging_unpack($decoding_byte_string);
                 break;
             case array_key_exists($length_capacity, self::$length_pack_type):
-                return array_shift(unpack(self::$length_pack_type[$length_capacity], $decoding_byte_string));
+                $unpacked = unpack(self::$length_pack_type[$length_capacity], $decoding_byte_string);
+                return array_shift($unpacked);
                 break;
             default:
                 throw new CBORIncorrectAdditionalInfoException("Incorrect additional info");
@@ -214,8 +215,8 @@ class CBOREncoder
         {
             return $simple_association[$length_capacity];
         }
-
-        return array_shift(unpack(self::$float_pack_type[$length_capacity], strrev(substr($byte_string, 1, self::$byte_length[$length_capacity]))));
+        $unpacked = unpack(self::$float_pack_type[$length_capacity], strrev(substr($byte_string, 1, self::$byte_length[$length_capacity])));
+        return array_shift($unpacked);
     }
 
     /**
